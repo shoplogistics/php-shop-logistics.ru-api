@@ -128,7 +128,7 @@ class Api
     {
         $xmlToArray = XML2Array::createArray($xml);
 
-        if (!is_array($xmlToArray) || isset($xmlToArray['answer']))
+        if (!is_array($xmlToArray) || !isset($xmlToArray['answer']))
         {
             //TODO: Change error message
             throw new AnswerException('Empty data answer');
