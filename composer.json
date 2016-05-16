@@ -1,0 +1,23 @@
+{
+  "name": "gennadyx/shop-logistics.ru-api",
+  "description": "PHP wrapper for shop-logistics.ru api",
+  "homepage": "https://github.com/gennadyx/shop-logistics.ru-api",
+  "license": "BSD",
+  "authors": [
+    {
+      "name": "Gennady Knyazkin",
+      "email": "gennadyx5@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "php-curl-class/php-curl-class": "dev-master",
+    "openlss/lib-array2xml": "dev-master",
+    "heartsentwined/arg-validator": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "ShopLogisticsRu\\": "src/ShopLogisticsRu"
+    }
+  }
+}
