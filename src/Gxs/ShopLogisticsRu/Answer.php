@@ -1,10 +1,10 @@
 <?php
 
 
-namespace ShopLogisticsRu;
+namespace Gxs\ShopLogisticsRu;
 
 
-use ShopLogisticsRu\Exception\AnswerException;
+use Gxs\ShopLogisticsRu\Exception\AnswerException;
 
 /**
  * Class Answer

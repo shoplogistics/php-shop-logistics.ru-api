@@ -1,7 +1,7 @@
 {
   "name": "gennadyx/shop-logistics.ru-api",
   "description": "PHP wrapper for shop-logistics.ru api",
-  "homepage": "https://github.com/gennadyx/shop-logistics.ru-api",
+  "homepage": "https://github.com/gennadyx/php-shop-logistics.ru-api",
   "license": "BSD",
   "authors": [
     {
@@ -17,7 +17,7 @@
   },
   "autoload": {
     "psr-4": {
-      "ShopLogisticsRu\\": "src/ShopLogisticsRu"
+      "Gxs\\ShopLogisticsRu\\": "src/Gxs/ShopLogisticsRu"
     }
   }
 }

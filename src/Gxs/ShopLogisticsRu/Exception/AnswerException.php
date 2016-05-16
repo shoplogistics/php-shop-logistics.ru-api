@@ -1,7 +1,7 @@
 <?php
 
 
-namespace ShopLogisticsRu\Exception;
+namespace Gxs\ShopLogisticsRu\Exception;
 
 /**
  * Class AnswerException

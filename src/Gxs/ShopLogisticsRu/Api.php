@@ -1,14 +1,14 @@
 <?php
 
 
-namespace ShopLogisticsRu;
+namespace Gxs\ShopLogisticsRu;
 
 
 use Curl\Curl;
 use Heartsentwined\ArgValidator\ArgValidator;
 use LSS\Array2XML;
 use LSS\XML2Array;
-use ShopLogisticsRu\Exception\AnswerException;
+use Gxs\ShopLogisticsRu\Exception\AnswerException;
 
 /**
  * Class Api

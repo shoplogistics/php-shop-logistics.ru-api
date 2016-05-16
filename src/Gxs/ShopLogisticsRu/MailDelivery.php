@@ -1,9 +1,9 @@
 <?php
 
 
-namespace ShopLogisticsRu;
+namespace Gxs\ShopLogisticsRu;
 
-use ShopLogisticsRu\Exception\NotImplementedException;
+use Gxs\ShopLogisticsRu\Exception\NotImplementedException;
 
 /**
  * Class MailDelivery

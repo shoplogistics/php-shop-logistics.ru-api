@@ -1,7 +1,7 @@
 <?php
 
 
-namespace ShopLogisticsRu;
+namespace Gxs\ShopLogisticsRu;
 
 use Heartsentwined\ArgValidator\ArgValidator;
 

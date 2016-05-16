@@ -1,11 +1,11 @@
 <?php
 
 
-namespace ShopLogisticsRu;
+namespace Gxs\ShopLogisticsRu;
 
 
 use Heartsentwined\ArgValidator\ArgValidator;
-use ShopLogisticsRu\Exception\NotImplementedException;
+use Gxs\ShopLogisticsRu\Exception\NotImplementedException;
 
 /**
  * Class Delivery
@@ -295,6 +295,4 @@ class Delivery extends ApiClass
 
         return $this->answer->getData()['tarifs']['tarif'];
     }
-
-
 }

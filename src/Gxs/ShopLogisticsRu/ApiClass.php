@@ -1,11 +1,11 @@
 <?php
 
 
-namespace ShopLogisticsRu;
+namespace Gxs\ShopLogisticsRu;
 
 
 use Heartsentwined\ArgValidator\ArgValidator;
-use ShopLogisticsRu\Exception\AnswerException;
+use Gxs\ShopLogisticsRu\Exception\AnswerException;
 
 /**
  * Class ApiClass
