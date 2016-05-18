@@ -18,6 +18,8 @@ class Api
 {
     const ENV_TEST = 'test';
     const ENV_PROD = 'prod';
+    
+    const API_KEY_TEST = '577888574a3e4df01867cd5ccc9f18a5';
 
     /**
      * Instance of Api class
@@ -56,10 +58,18 @@ class Api
     private function __construct($apiKey, $environment)
     {
         $this->curl = new Curl();
-        $this->curl->setOpt(CURLOPT_RETURNTRANSFER, 1);
+        $this->curl->setOpt(CURLOPT_RETURNTRANSFER, true);
         $this->curl->setUserAgent('Mozilla/5.0 (X11; Linux x86_64; rv:46.0) Gecko/20100101 Firefox/46.0');
         $this->apiUrl = $this->getApiUrl($environment);
 	}
+
+    /**
+     * Api destructor
+     */
+    public function __destruct()
+    {
+        $this->curl = null;
+    }
 
     /**
      * Get API URL by environment
@@ -147,8 +157,8 @@ class Api
      */
     public static function getInstance($apiKey, $environment)
     {
-        ArgValidator::assert($apiKey, ['notEmpty']);
-        ArgValidator::assert($environment, ['notEmpty']);
+        ArgValidator::assert($apiKey, ['string', 'notEmpty']);
+        ArgValidator::assert($environment, ['string', 'notEmpty']);
 
         if (null === self::$instance) {
             self::$instance = new self($apiKey, $environment);
@@ -172,7 +182,7 @@ class Api
      */
     public function callMethod($method, array $args = [])
     {
-        ArgValidator::assert($method, ['notEmpty']);
+        ArgValidator::assert($method, ['string', 'notEmpty']);
         $xml = $this->prepareXmlForRequest($method, $args);
         $result = $this->curl->post($this->apiUrl, [
             'xml' => base64_encode($xml)

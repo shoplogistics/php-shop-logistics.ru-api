@@ -38,7 +38,7 @@ class Dictionary extends ApiClass
             return false;
         }
 
-        return $this->answer->getData()[$answerRootKey][$answerItemKey];
+        return $this->returnAsArrayList($answerRootKey, $answerItemKey);
     }
 
     /**

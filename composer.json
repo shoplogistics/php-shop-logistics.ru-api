@@ -15,6 +15,9 @@
     "openlss/lib-array2xml": "dev-master",
     "heartsentwined/arg-validator": "dev-master"
   },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
   "autoload": {
     "psr-4": {
       "Gxs\\ShopLogisticsRu\\": "src/Gxs/ShopLogisticsRu"

@@ -29,19 +29,40 @@ class Delivery extends ApiClass
      */
     private $requiredDeliveryFieldsForAdd = [
         'delivery_date' => ['string', 'notEmpty'],
+        'picking_date' => ['string', 'notSet'],
         'date_transfer_to_store' => ['string', 'notEmpty'],
         'from_city' => ['int', 'string', 'notEmpty'],
         'to_city' => ['int', 'string', 'notEmpty'],
         'time_from' => ['string', 'notEmpty'],
         'time_to' => ['string', 'notEmpty'],
         'order_id' => ['string', 'int', 'notEmpty'],
+        'metro' => ['int', 'string', 'notSet'],
         'address' => ['string', 'notEmpty'],
+        'address_index' => ['int', 'notSet'],
         'contact_person' => ['string', 'notEmpty'],
-        'phone' => ['string', 'notEmpty'],
-        'price' => 'float',
-        'ocen_price' => 'float',
+        'phone' => ['string', 'int', 'notEmpty'],
+        'phone_sms' => ['string', 'int', 'notSet'],
+        'price' => ['float', 'int'],
+        'ocen_price' => ['float', 'int'],
+        'additional_info' => ['string', 'notSet'],
         'site_name' => 'string',
+        'pickup_place' => ['int', 'notSet'],
+        'zabor_places_code' => ['int', 'notSet'],
+        'partial_ransom' => ['int', 'min' => 0, 'max' => 1, 'notSet'],
+        'prohibition_opening_to_pay' => ['int', 'min' => 0, 'max' => 1, 'notSet'],
+        'delivery_price_for_customer' => ['float', 'int', 'notSet'],
+        'delivery_price_for_customer_required' => ['int', 'min' => 0, 'max' => 1, 'notSet'],
+        'delivery_price_porog_for_customer' => ['float', 'int', 'notSet'],
+        'delivery_discount_for_customer' => ['float', 'int', 'notSet'],
+        'delivery_discount_porog_for_customer' => ['float', 'int', 'notSet'],
+        'return_shipping_documents' => ['int', 'min' => 0, 'max' => 1, 'notSet'],
+        'use_from_canceled' => ['int', 'min' => 0, 'max' => 1, 'notSet'],
+        'add_product_from_disct' => ['int', 'min' => 0, 'max' => 1, 'notSet'],
+        'number_of_place' => 'int',
         'delivery_speed' => ['string', 'notEmpty'],
+        'shop_logistics_cheque' => ['int', 'min' => 0, 'max' => 1, 'notSet'],
+        'delivery_partner' => ['int', 'notSet'],
+        'barcodes' => ['array', 'notSet'],
         'products' => ['array', 'notEmpty']
     ];
 
@@ -57,16 +78,21 @@ class Delivery extends ApiClass
         'item_price' => 'float'
     ];
 
+    /**
+     * Required parameter fields for get tariffs
+     *
+     * @var array
+     */
     private $requiredFieldsForTariffs = [
         'from_city' => 'int',
         'to_city' => 'int',
-        'weight' => ['float', 'null'],
-        'order_length' => ['float', 'null'],
-        'order_width' => ['float', 'null'],
-        'order_height' => ['float', 'null'],
-        'num' => 'int',
-        'order_price' => 'float',
-        'ocen_price' => 'float',
+        'weight' => ['float', 'int', 'notSet'],
+        'order_length' => ['float', 'int', 'notSet'],
+        'order_width' => ['float', 'int', 'notSet'],
+        'order_height' => ['float', 'int', 'notSet'],
+        'num' => ['int', 'notSet'],
+        'order_price' => ['float', 'int'],
+        'ocen_price' => ['float', 'int'],
     ];
 
     /**
@@ -85,25 +111,62 @@ class Delivery extends ApiClass
      * @param array $deliveryData Delivery data
      *
      * @return array|bool Return delivery data or false in case of an error
-     * @throws \InvalidArgumentException
      */
     public function add(array $deliveryData)
     {
         ArgValidator::arrayAssert($deliveryData, $this->requiredDeliveryFieldsForAdd);
-        ArgValidator::arrayAssert($deliveryData['products'], $this->requiredProductsFieldsForAdd);
-        
+
+        foreach ($deliveryData['products'] as $product) {
+            ArgValidator::arrayAssert($product['product'], $this->requiredProductsFieldsForAdd);
+        }
+
+        unset($deliveryData['code']);
+        return $this->_update($deliveryData);
+    }
+
+    /**
+     * Update delivery
+     *
+     * @param string|int $code Delivery code
+     * @param array $deliveryData Delivery dat
+     *
+     * @return bool|array Return delivery data or false in case of an error
+     */
+    public function update($code, $deliveryData)
+    {
+        ArgValidator::assert($code, ['string', 'int']);
+        ArgValidator::arrayAssert($deliveryData, $this->requiredDeliveryFieldsForAdd);
+
+        if (isset($deliveryData['products'])) {
+            foreach ($deliveryData['products'] as $product) {
+                ArgValidator::arrayAssert($product['product'], $this->requiredProductsFieldsForAdd);
+            }
+        }
+
+        return $this->_update(array_merge($deliveryData, ['code' => $code]));
+    }
+
+    /**
+     * Update delivery
+     *
+     * @param array $deliveryData
+     *
+     * @return bool|array
+     */
+    private function _update(array $deliveryData)
+    {
         if (!$this->callMethod('add_delivery', ['deliveries' => ['delivery' => $deliveryData]])) {
             return false;
         }
 
-        $answerDeliveryData = $this->answer->getData()['deliveries']['delivery'];
-        
-        if (isset($answerDeliveryData['error_code']) 
-            && $answerDeliveryData['error_code'] !== self::ADD_ERROR_NO) {
+        $answerDeliveryData = $this->answer['deliveries']['delivery'];
+
+        if ((isset($answerDeliveryData['error_code'])
+            && $answerDeliveryData['error_code'] !== self::ADD_ERROR_NO)) {
             $this->errorCode = (int)$answerDeliveryData['error_code'];
             return false;
         }
-        
+
         return $answerDeliveryData;
     }
 
@@ -113,29 +176,25 @@ class Delivery extends ApiClass
      * @param array $filter Filter for deliveries
      *
      * @return bool|array Return deliveries list or false in case of an error
-     * @throws \InvalidArgumentException
      */
     public function getDeliveries(array $filter)
     {
+        ArgValidator::assert($filter, ['array', 'notEmpty']);
         ArgValidator::arrayAssert($filter, [
-            'delivery_date' => 'string',
-            'order_id' => ['string', 'int'],
-            'code' => 'string',
-            'start_date_added' => 'string',
-            'end_date_added' => 'string'
+            'delivery_date' => ['string', 'notSet'],
+            'delivery_added' => ['string', 'notSet'],
+            'order_id' => ['string', 'int', 'notSet'],
+            'status' => ['string', 'notSet'],
+            'code' => ['string', 'notSet'],
+            'start_date_added' => ['string', 'notSet'],
+            'end_date_added' => ['string', 'notSet']
         ]);
 
         if (!$this->callMethod('get_deliveries', $filter)) {
             return false;
         }
 
-        $answerDeliveries = $this->answer->getData()['deliveries'];
-
-        if (isset($answerDeliveries['delivery']) && is_array($answerDeliveries['delivery'])) {
-            return $answerDeliveries['delivery'];
-        }
-
-        return [];
+        return $this->returnAsArrayList('deliveries', 'delivery');
     }
 
     /**
@@ -153,7 +212,7 @@ class Delivery extends ApiClass
             return false;
         }
 
-        return $this->answer->getData()['deliveries']['delivery'];
+        return $this->answer['deliveries']['delivery'];
     }
 
     /**
@@ -171,7 +230,7 @@ class Delivery extends ApiClass
             return false;
         }
 
-        return $this->answer->getData()['deliveries']['delivery'];
+        return $this->returnAsArrayList('deliveries', 'delivery');
     }
 
     /**
@@ -198,21 +257,19 @@ class Delivery extends ApiClass
     {
         ArgValidator::arrayAssert($parameters, array_merge($this->requiredFieldsForTariffs, [
             'tarifs_type' => ['int', 'min' => 1, 'max' => 2],
-            'delivery_partner' => ['string', 'null'],
-            'pickup_place' => 'int'
+            'delivery_partner' => ['int', 'string', 'notSet'],
+            'pickup_place' => ['int', 'notSet']
         ]));
         
         if (!$this->callMethod('get_delivery_price', $parameters)) {
             return false;
         }
 
-        $answerPriceData = $this->answer->getData();
-
-        if ($answerPriceData['error_code'] !== self::ADD_ERROR_NO) {
+        if ($this->answer['error_code'] !== self::ADD_ERROR_NO) {
             return false;
         }
 
-        return $answerPriceData;
+        return $this->answer->toArray();
     }
 
     /**
@@ -256,7 +313,7 @@ class Delivery extends ApiClass
      *
      * @param array $parameters Parameters
      *
-     * @return bool|array Return delivery variants or false in case of an error
+     * @return bool|arrayReturn delivery variants or false in case of an error
      */
     public function getVariants(array $parameters)
     {
@@ -266,7 +323,7 @@ class Delivery extends ApiClass
             return false;
         }
 
-        return $this->answer->getData()['tarifs']['tarif'];
+        return $this->returnAsArrayList('tarifs', 'tarif');
     }
 
     /**
@@ -274,25 +331,25 @@ class Delivery extends ApiClass
      *
      * @param array $parameters Parameters
      *
-     * @return bool|array Return all delivery tariffs or false in case of an error
+     * @return bool|array|null Return all delivery tariffs, null if result is empty or false in case of an error
      */
     public function getTariffs(array $parameters)
     {
         ArgValidator::arrayAssert($parameters, [
             'from_city_code' => 'int',
-            'weight' => ['float', 'null'],
-            'order_length' => ['float', 'null'],
-            'order_width' => ['float', 'null'],
-            'order_height' => ['float', 'null'],
+            'weight' => ['float', 'int', 'notSet'],
+            'order_length' => ['float', 'int', 'notSet'],
+            'order_width' => ['float', 'int', 'notSet'],
+            'order_height' => ['float', 'int', 'notSet'],
             'delivery_type' => ['string', 'notEmpty'],
-            'num' => 'int',
-            'max_price' => ['int', 'min' => 0]
+            'num' => ['int', 'notSet'],
+            'max_price' => ['int', 'min' => 0, 'notSet']
         ]);
 
         if (!$this->callMethod('get_all_tarifs', $parameters)) {
             return false;
         }
 
-        return $this->answer->getData()['tarifs']['tarif'];
+        return $this->returnAsArrayList('tarifs', 'tarif');
     }
 }

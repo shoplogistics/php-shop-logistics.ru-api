@@ -42,9 +42,18 @@ class ApiClass
      */
     public function __construct($apiKey, $environment)
     {
-        ArgValidator::assert($apiKey, ['notEmpty']);
-        ArgValidator::assert($environment, ['notEmpty']);
+        ArgValidator::assert($apiKey, ['string', 'notEmpty']);
+        ArgValidator::assert($environment, ['string', 'notEmpty']);
         $this->apiInstance = Api::getInstance($apiKey, $environment);
+    }
+
+    /**
+     * ApiClass destructor.
+     */
+    public function __destruct()
+    {
+        $this->apiInstance = null;
+        $this->answer = null;
     }
 
     /**
@@ -54,16 +63,16 @@ class ApiClass
      */
     public function getLastErrorCode()
     {
-        if ($this->answer !== null && $this->answer instanceof Answer)  {
-            return $this->answer->getErrorCode();
-        } elseif ($this->errorCode !== null) {
+        if ($this->errorCode !== null) {
             $errorCode = $this->errorCode;
             $this->errorCode = null;
-            
-            return $errorCode;
-        }
 
-        return null;
+            return $errorCode;
+        } elseif ($this->answer !== null && $this->answer instanceof Answer)  {
+            return $this->answer->getErrorCode();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -93,5 +102,29 @@ class ApiClass
         }
 
         return !$this->hasError();
+    }
+
+    /**
+     * Return answer data as array list
+     *
+     * @param string $rootKey Root array key
+     * @param string $itemKey Item array key
+     *
+     * @return array
+     */
+    protected function returnAsArrayList($rootKey, $itemKey)
+    {
+        if (!isset($this->answer[$rootKey][$itemKey]) || !is_array($this->answer[$rootKey][$itemKey])) {
+            return [];
+        }
+
+        /** @var array $arrayList */
+        $arrayList = $this->answer[$rootKey][$itemKey];
+
+        if (!is_int(array_keys($arrayList)[0])) {
+            $arrayList = [$arrayList];
+        }
+
+        return $arrayList;
     }
 }

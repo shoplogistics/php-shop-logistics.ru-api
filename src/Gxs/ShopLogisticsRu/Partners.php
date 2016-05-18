@@ -31,7 +31,7 @@ class Partners extends ApiClass
      */
     public function getPartners($fromCity, $toCity = null)
     {
-        ArgValidator::assert($fromCity, ['notEmpty']);
+        ArgValidator::assert($fromCity, ['int', 'notEmpty']);
         ArgValidator::assert($toCity, ['int', 'null']);
 
         if (!$this->callMethod('get_all_couriers_partners', [
@@ -41,6 +41,6 @@ class Partners extends ApiClass
             return false;
         }
 
-        return $this->answer->getData()['partners']['partner'];
+        return $this->returnAsArrayList('partners', 'partner');
     }
 }
