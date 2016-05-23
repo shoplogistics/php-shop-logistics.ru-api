@@ -1,1 +1,1 @@
-php-shop-logistics.ru-api
+PHP wrapper for shop-logistics.ru api
