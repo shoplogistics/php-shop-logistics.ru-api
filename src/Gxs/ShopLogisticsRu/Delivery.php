@@ -313,7 +313,7 @@ class Delivery extends ApiClass
      *
      * @param array $parameters Parameters
      *
-     * @return bool|arrayReturn delivery variants or false in case of an error
+     * @return bool|array Return delivery variants or false in case of an error
      */
     public function getVariants(array $parameters)
     {
