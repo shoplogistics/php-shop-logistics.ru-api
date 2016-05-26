@@ -11,7 +11,7 @@ use Gxs\ShopLogisticsRu\Exception\AnswerException;
  * Class ApiClass
  * @package ShopLogisticsRu
  */
-class ApiClass
+abstract class ApiClass
 {
     /**
      * Instance of Api class
