@@ -145,7 +145,7 @@ class Api
             throw new AnswerException('Empty data answer');
         }
         
-        return new Answer($xmlToArray['answer']);
+        return new Answer((array)$xmlToArray['answer']);
     }
 
     /**

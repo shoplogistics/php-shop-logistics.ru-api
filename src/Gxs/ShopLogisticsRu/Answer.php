@@ -33,13 +33,13 @@ class Answer implements \Iterator, \ArrayAccess
     /**
      * Answer constructor.
      *
-     * @param array $answer Answer array
+     * @param array|null $answer Answer array
      *
      * @throws AnswerException
      */
-    public function __construct(array $answer)
+    public function __construct($answer)
     {
-        if (!isset($answer['error'])) {
+        if (!is_array($answer) || !isset($answer['error'])) {
             throw new AnswerException('Invalid answer status');
         }
 
