@@ -13,6 +13,10 @@ use Gxs\ShopLogisticsRu\Exception\NotImplementedException;
  */
 class Delivery extends ApiClass
 {
+    const TYPE_ALL = 'all';
+    const TYPE_COURIER = 'courier';
+    const TYPE_PICKUP = 'pickup';
+
     const ADD_ERROR_NO = 0;
     const ADD_ERROR_INVALID_DATA_FORMAT = 4;
     const ADD_ERROR_UPDATE = 5;
@@ -337,13 +341,13 @@ class Delivery extends ApiClass
     {
         ArgValidator::arrayAssert($parameters, [
             'from_city_code' => 'int',
-            'weight' => ['float', 'int', 'notSet'],
+            'weight' => ['float', 'int', 'notEmpty'],
             'order_length' => ['float', 'int', 'notSet'],
             'order_width' => ['float', 'int', 'notSet'],
             'order_height' => ['float', 'int', 'notSet'],
             'delivery_type' => ['string', 'notEmpty'],
-            'num' => ['int', 'notSet'],
-            'max_price' => ['int', 'min' => 0, 'notSet']
+            'num' => ['int', 'notEmpty'],
+            'max_price' => ['int', 'min' => 0, 'notEmpty']
         ]);
 
         if (!$this->callMethod('get_all_tarifs', $parameters)) {
