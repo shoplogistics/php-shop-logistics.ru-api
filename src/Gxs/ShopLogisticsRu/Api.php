@@ -56,7 +56,7 @@ class Api
      */
     private $apiClasses = [
         'delivery' => '\Gxs\ShopLogisticsRu\Delivery',
-        'dictionary' => '\Gxs\ShopLogisticsRU\Dictionary',
+        'dictionary' => '\Gxs\ShopLogisticsRu\Dictionary',
         'mail_delivery' => '\Gxs\ShopLogisticsRu\MailDelivery',
         'partners' => '\Gxs\ShopLogisticsRu\Partners',
         'pickup' => '\Gxs\ShopLogisticsRu\Pickup',

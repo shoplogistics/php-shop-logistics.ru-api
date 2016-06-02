@@ -14,55 +14,6 @@ class DeliveryTest extends \PHPUnit_Framework_TestCase
      */
     private $delivery;
 
-    public function testAdd()
-    {
-        $deliveryData = [
-            'delivery_date' => '2016-05-18', 'date_transfer_to_store' => '2016-05-18', 'from_city' => 405065,
-            'to_city' => 405065, 'time_from' => '12:45', 'time_to' => '18:45', 'order_id' => 454545,
-            'address' => 'Test st. 12-11', 'contact_person' => 'Test Test', 'phone' => '444444', 'price' => 12.12,
-            'ocen_price' => 13.13, 'site_name' => 'test.test', 'delivery_speed' => 'normal',
-            'number_of_place' => 1,
-            'products' => [
-                [
-                    'product' => [
-                        'articul' => '45551',
-                        'name' => 'Test',
-                        'quantity' => 45.0,
-                        'item_price' => 12.12
-                    ]
-                ]
-            ]
-        ];
-        
-        $addResult = $this->delivery->add($deliveryData);
-        $this->assertFalse($addResult);
-        $this->assertEquals(Delivery::ADD_ERROR_INVALID_DATA_FORMAT, $this->delivery->getLastErrorCode());
-    }
-
-    public function testUpdate()
-    {
-        $deliveryData = [
-            'delivery_date' => '2016-05-18', 'date_transfer_to_store' => '2016-05-18', 'from_city' => 405065,
-            'to_city' => 405065, 'time_from' => '12:45', 'time_to' => '18:45', 'order_id' => 454545,
-            'address' => 'Test st. 12-11', 'contact_person' => 'Test Test', 'phone' => '444444', 'price' => 12.12,
-            'ocen_price' => 13.13, 'site_name' => 'test.test', 'delivery_speed' => 'normal',
-            'number_of_place' => 1,
-            'products' => [
-                [
-                    'product' => [
-                        'articul' => '45551',
-                        'name' => 'Test',
-                        'quantity' => 45.0,
-                        'item_price' => 12.12
-                    ]
-                ]
-            ]
-        ];
-        $updateResult = $this->delivery->update('135833975800056758', $deliveryData);
-        $this->assertFalse($updateResult);
-        $this->assertEquals(Delivery::ADD_ERROR_INVALID_DATA_FORMAT, $this->delivery->getLastErrorCode());
-    }
-
     public function testGetDeliveries()
     {
         $getDeliveriesResult = $this->delivery->getDeliveries(['status' => 'Новый']);
