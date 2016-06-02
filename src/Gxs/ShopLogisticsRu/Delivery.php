@@ -100,16 +100,6 @@ class Delivery extends ApiClass
     ];
 
     /**
-     * Delivery constructor.
-     *
-     * @inheritdoc
-     */
-    public function __construct($apiKey, $environment = Api::ENV_PROD)
-    {
-        parent::__construct($apiKey, $environment);
-    }
-
-    /**
      * Add new delivery
      *
      * @param array $deliveryData Delivery data

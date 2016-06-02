@@ -12,16 +12,6 @@ use Gxs\ShopLogisticsRu\Exception\NotImplementedException;
 class MailDelivery extends ApiClass
 {
     /**
-     * MailDelivery constructor.
-     *
-     * @inheritdoc
-     */
-    public function __construct($apiKey, $environment = Api::ENV_PROD)
-    {
-        parent::__construct($apiKey, $environment);
-    }
-
-    /**
      * Add new mail delivery
      *
      * @param array $mailDeliveryData Mail delivery data

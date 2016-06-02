@@ -31,7 +31,7 @@ class PickupTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->pickup = new Pickup(Api::API_KEY_TEST, Api::ENV_TEST);
+        $this->pickup = Api::getInstance(Api::API_KEY_TEST, Api::ENV_TEST)->get('pickup');
     }
     
     protected function tearDown()

@@ -37,14 +37,11 @@ abstract class ApiClass
     /**
      * ApiClass constructor.
      *
-     * @param string $apiKey API Key
-     * @param string $environment API Environment
+     * @param Api $apiInstance Instance of Api class
      */
-    public function __construct($apiKey, $environment)
+    public function __construct(Api $apiInstance)
     {
-        ArgValidator::assert($apiKey, ['string', 'notEmpty']);
-        ArgValidator::assert($environment, ['string', 'notEmpty']);
-        $this->apiInstance = Api::getInstance($apiKey, $environment);
+        $this->apiInstance = $apiInstance;
     }
 
     /**
@@ -52,7 +49,6 @@ abstract class ApiClass
      */
     public function __destruct()
     {
-        $this->apiInstance = null;
         $this->answer = null;
     }
 

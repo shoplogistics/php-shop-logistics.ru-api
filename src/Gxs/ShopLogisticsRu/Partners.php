@@ -12,16 +12,6 @@ use Heartsentwined\ArgValidator\ArgValidator;
 class Partners extends ApiClass
 {
     /**
-     * Partners constructor.
-     *
-     * @inheritdoc
-     */
-    public function __construct($apiKey, $environment = Api::ENV_PROD)
-    {
-        parent::__construct($apiKey, $environment);
-    }
-
-    /**
      * Get partners by city
      *
      * @param int $fromCity From city

@@ -27,7 +27,7 @@ class PartnersTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->partners = new Partners(Api::API_KEY_TEST, Api::ENV_TEST);
+        $this->partners = Api::getInstance(Api::API_KEY_TEST, Api::ENV_TEST)->get('partners');
     }
 
     protected function tearDown()

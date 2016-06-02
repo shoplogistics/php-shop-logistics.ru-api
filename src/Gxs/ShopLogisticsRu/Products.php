@@ -12,16 +12,6 @@ use Gxs\ShopLogisticsRu\Exception\NotImplementedException;
 class Products extends ApiClass
 {
     /**
-     * Products constructor.
-     * 
-     * @inheritdoc
-     */
-    public function __construct($apiKey, $environment = Api::ENV_PROD)
-    {
-        parent::__construct($apiKey, $environment);
-    }
-
-    /**
      * Add new single product
      *
      * @param array $productData Product data

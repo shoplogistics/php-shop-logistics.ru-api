@@ -50,6 +50,20 @@ class Api
     protected $apiUrl = null;
 
     /**
+     * Map of api classes
+     *
+     * @var array
+     */
+    private $apiClasses = [
+        'delivery' => '\Gxs\ShopLogisticsRu\Delivery',
+        'dictionary' => '\Gxs\ShopLogisticsRU\Dictionary',
+        'mail_delivery' => '\Gxs\ShopLogisticsRu\MailDelivery',
+        'partners' => '\Gxs\ShopLogisticsRu\Partners',
+        'pickup' => '\Gxs\ShopLogisticsRu\Pickup',
+        'products' => '\Gxs\ShopLogisticsRu\Products'
+    ];
+
+    /**
      * Api constructor.
      *
      * @param string $apiKey API Key
@@ -156,7 +170,7 @@ class Api
      *
      * @return Api
      */
-    public static function getInstance($apiKey, $environment)
+    public static function getInstance($apiKey, $environment = self::ENV_PROD)
     {
         ArgValidator::assert($apiKey, ['string', 'notEmpty']);
         ArgValidator::assert($environment, ['string', 'notEmpty']);
@@ -190,5 +204,23 @@ class Api
         ]);
 
         return $this->parseAnswer($result);
+    }
+
+    /**
+     * Return new instance of api class
+     *
+     * @param string $apiClass Api class
+     *
+     * @return ApiClass|null
+     */
+    public function get($apiClass)
+    {
+        ArgValidator::assert($apiClass, ['string', 'notEmpty']);
+
+        if (!isset($this->apiClasses[$apiClass])) {
+            return null;
+        }
+
+        return new $this->apiClasses[$apiClass]($this);
     }
 }

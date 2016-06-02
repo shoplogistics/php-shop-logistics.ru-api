@@ -12,16 +12,6 @@ use Heartsentwined\ArgValidator\ArgValidator;
 class Dictionary extends ApiClass
 {
     /**
-     * Dictionary constructor.
-     *
-     * @inheritdoc
-     */
-    public function __construct($apiKey, $environment = Api::ENV_PROD)
-    {
-        parent::__construct($apiKey, $environment);
-    }
-
-    /**
      * Get dictionary by type
      *
      * @param string $type Dictionary type

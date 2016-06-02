@@ -129,7 +129,7 @@ class DictionaryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->dictionary = new Dictionary(Api::API_KEY_TEST, Api::ENV_TEST);
+        $this->dictionary = Api::getInstance(Api::API_KEY_TEST, Api::ENV_TEST)->get('dictionary');
     }
     
     protected function tearDown()
