@@ -4,7 +4,6 @@
 namespace Gxs\ShopLogisticsRu;
 
 
-use Heartsentwined\ArgValidator\ArgValidator;
 use Gxs\ShopLogisticsRu\Exception\AnswerException;
 
 /**
@@ -29,7 +28,7 @@ abstract class ApiClass
 
     /**
      * Error code
-     * 
+     *
      * @var int
      */
     protected $errorCode;
@@ -64,21 +63,11 @@ abstract class ApiClass
             $this->errorCode = null;
 
             return $errorCode;
-        } elseif ($this->answer !== null && $this->answer instanceof Answer)  {
+        } elseif ($this->answer !== null && $this->answer instanceof Answer) {
             return $this->answer->getErrorCode();
         } else {
             return null;
         }
-    }
-
-    /**
-     * Check has error in answer
-     *
-     * @return bool
-     */
-    protected function hasError()
-    {
-        return $this->answer === null || !($this->answer instanceof Answer);
     }
 
     /**
@@ -98,6 +87,16 @@ abstract class ApiClass
         }
 
         return !$this->hasError();
+    }
+
+    /**
+     * Check has error in answer
+     *
+     * @return bool
+     */
+    protected function hasError()
+    {
+        return $this->answer === null || !($this->answer instanceof Answer);
     }
 
     /**

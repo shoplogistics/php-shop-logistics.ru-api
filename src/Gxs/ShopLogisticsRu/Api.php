@@ -5,10 +5,10 @@ namespace Gxs\ShopLogisticsRu;
 
 
 use Curl\Curl;
+use Gxs\ShopLogisticsRu\Exception\AnswerException;
 use Heartsentwined\ArgValidator\ArgValidator;
 use LSS\Array2XML;
 use LSS\XML2Array;
-use Gxs\ShopLogisticsRu\Exception\AnswerException;
 
 /**
  * Class Api
@@ -18,7 +18,7 @@ class Api
 {
     const ENV_TEST = 'test';
     const ENV_PROD = 'prod';
-    
+
     const API_KEY_TEST = '577888574a3e4df01867cd5ccc9f18a5';
 
     /**
@@ -76,7 +76,7 @@ class Api
         $this->curl->setUserAgent('Mozilla/5.0 (X11; Linux x86_64; rv:46.0) Gecko/20100101 Firefox/46.0');
         $this->apiUrl = $this->getApiUrl($environment);
         $this->apiKey = $apiKey;
-	}
+    }
 
     /**
      * Api destructor
@@ -137,12 +137,13 @@ class Api
     protected function prepareXmlForRequest($method, array $args)
     {
         $arrayToXml = Array2XML::createXML('request', $this->prepareArrayForConvertToXml($method, $args));
+
         return $arrayToXml->saveXML();
     }
 
     /**
      * Parse answer xml and return ShopLogisticsRu\Answer object
-     * 
+     *
      * @param string $xml Answer xml data
      *
      * @return Answer
@@ -153,12 +154,11 @@ class Api
     {
         $xmlToArray = XML2Array::createArray($xml);
 
-        if (!is_array($xmlToArray) || !isset($xmlToArray['answer']))
-        {
+        if (!is_array($xmlToArray) || !isset($xmlToArray['answer'])) {
             //TODO: Change error message
             throw new AnswerException('Empty data answer');
         }
-        
+
         return new Answer((array)$xmlToArray['answer']);
     }
 
@@ -188,7 +188,7 @@ class Api
 
     /**
      * Call method and get answer
-     * 
+     *
      * @param string $method Method name
      * @param array $args Method arguments
      *

@@ -17,7 +17,7 @@ class Pickup extends ApiClass
 
     /**
      * Required data fields for add new pickup place
-     * 
+     *
      * @var array
      */
     private $requiredFieldsForAddPlace = [
@@ -65,8 +65,10 @@ class Pickup extends ApiClass
         $answerPickupData = $this->answer['zabors']['zabor'];
 
         if (isset($answerPickupData['error_code'])
-            && $answerPickupData['error_code'] !== self::ADD_ERROR_NO) {
+            && $answerPickupData['error_code'] !== self::ADD_ERROR_NO
+        ) {
             $this->errorCode = (int)$answerPickupData['error_code'];
+
             return false;
         }
 
@@ -85,28 +87,13 @@ class Pickup extends ApiClass
     {
         ArgValidator::arrayAssert($placeData, $this->requiredFieldsForAddPlace);
         unset($placeData['code']);
+
         return $this->_updatePlace($placeData, $errorMessage);
     }
 
     /**
-     * Update pickup place
-     *
-     * @param string $code Pickup place code
-     * @param array $placeData Place data
-     * @param string $errorMessage Error message
-     *
-     * @return bool|string Return place code or false in case of an error
-     */
-    public function updatePlace($code, array $placeData, &$errorMessage = '')
-    {
-        ArgValidator::assert($code, ['string', 'int', 'notEmpty']);
-        ArgValidator::arrayAssert($placeData, $this->requiredFieldsForAddPlace);
-        return $this->_updatePlace(array_merge($placeData, ['code' => $code]), $errorMessage);
-    }
-
-    /**
      * Update pickap place data
-     * 
+     *
      * @param array $placeData
      * @param string $errorMessage
      *
@@ -122,9 +109,27 @@ class Pickup extends ApiClass
 
         if (!empty($answerPlaceData['msg'])) {
             $errorMessage = $answerPlaceData['msg'];
+
             return false;
         }
 
         return $answerPlaceData['code'];
+    }
+
+    /**
+     * Update pickup place
+     *
+     * @param string $code Pickup place code
+     * @param array $placeData Place data
+     * @param string $errorMessage Error message
+     *
+     * @return bool|string Return place code or false in case of an error
+     */
+    public function updatePlace($code, array $placeData, &$errorMessage = '')
+    {
+        ArgValidator::assert($code, ['string', 'int', 'notEmpty']);
+        ArgValidator::arrayAssert($placeData, $this->requiredFieldsForAddPlace);
+
+        return $this->_updatePlace(array_merge($placeData, ['code' => $code]), $errorMessage);
     }
 }

@@ -72,7 +72,7 @@ class DictionaryTest extends \PHPUnit_Framework_TestCase
     {
         $getAffiliateResult = $this->dictionary->getAffiliate();
         $this->assertNotFalse($getAffiliateResult);
-        
+
         if (count($getAffiliateResult) > 0) {
             $this->assertArrayHasKey('city_name', $getAffiliateResult[0]);
             $this->assertArrayHasKey('city_code_id', $getAffiliateResult[0]);
@@ -86,7 +86,7 @@ class DictionaryTest extends \PHPUnit_Framework_TestCase
     {
         $getStatusesResult = $this->dictionary->getStatuses();
         $this->assertNotFalse($getStatusesResult);
-        
+
         if (count($getStatusesResult) > 0) {
             $this->assertArrayHasKey('name', $getStatusesResult[0]);
         }
@@ -108,7 +108,7 @@ class DictionaryTest extends \PHPUnit_Framework_TestCase
     {
         $getStatesResult = $this->dictionary->getStates();
         $this->assertNotFalse($getStatesResult);
-        
+
         if (count($getStatesResult) > 0) {
             $this->assertArrayHasKey('name', $getStatesResult[0]);
             $this->assertArrayHasKey('code', $getStatesResult[0]);
@@ -119,7 +119,7 @@ class DictionaryTest extends \PHPUnit_Framework_TestCase
     {
         $getDistrictsResult = $this->dictionary->getDistricts();
         $this->assertNotFalse($getDistrictsResult);
-        
+
         if (count($getDistrictsResult) > 0) {
             $this->assertArrayHasKey('name', $getDistrictsResult[0]);
             $this->assertArrayHasKey('code', $getDistrictsResult[0]);
@@ -131,7 +131,7 @@ class DictionaryTest extends \PHPUnit_Framework_TestCase
     {
         $this->dictionary = Api::factory(Api::API_KEY_TEST, Api::ENV_TEST)->get('dictionary');
     }
-    
+
     protected function tearDown()
     {
         $this->dictionary = null;

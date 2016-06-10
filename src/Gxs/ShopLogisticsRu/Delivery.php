@@ -4,8 +4,8 @@
 namespace Gxs\ShopLogisticsRu;
 
 
-use Heartsentwined\ArgValidator\ArgValidator;
 use Gxs\ShopLogisticsRu\Exception\NotImplementedException;
+use Heartsentwined\ArgValidator\ArgValidator;
 
 /**
  * Class Delivery
@@ -115,6 +115,7 @@ class Delivery extends ApiClass
         }
 
         unset($deliveryData['code']);
+
         return $this->_update($deliveryData);
     }
 
@@ -156,8 +157,10 @@ class Delivery extends ApiClass
         $answerDeliveryData = $this->answer['deliveries']['delivery'];
 
         if ((isset($answerDeliveryData['error_code'])
-            && $answerDeliveryData['error_code'] !== self::ADD_ERROR_NO)) {
+            && $answerDeliveryData['error_code'] !== self::ADD_ERROR_NO)
+        ) {
             $this->errorCode = (int)$answerDeliveryData['error_code'];
+
             return false;
         }
 
@@ -254,7 +257,7 @@ class Delivery extends ApiClass
             'delivery_partner' => ['int', 'string', 'notSet'],
             'pickup_place' => ['int', 'notSet']
         ]));
-        
+
         if (!$this->callMethod('get_delivery_price', $parameters)) {
             return false;
         }

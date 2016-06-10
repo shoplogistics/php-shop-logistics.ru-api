@@ -27,7 +27,8 @@ class Partners extends ApiClass
         if (!$this->callMethod('get_all_couriers_partners', [
             'from_city_code' => $fromCity,
             'to_city_code' => $toCity
-        ])) {
+        ])
+        ) {
             return false;
         }
 

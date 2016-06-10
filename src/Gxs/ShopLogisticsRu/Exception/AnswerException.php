@@ -9,5 +9,5 @@ namespace Gxs\ShopLogisticsRu\Exception;
  */
 class AnswerException extends \Exception
 {
-    
+
 }

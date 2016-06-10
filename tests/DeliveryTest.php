@@ -18,7 +18,7 @@ class DeliveryTest extends \PHPUnit_Framework_TestCase
     {
         $getDeliveriesResult = $this->delivery->getDeliveries(['status' => 'Новый']);
         $this->assertNotFalse($getDeliveriesResult);
-        
+
         if (count($getDeliveriesResult) > 0) {
             $this->assertArrayHasKey('code', $getDeliveriesResult[0]);
             $this->assertArrayHasKey('delivery_date', $getDeliveriesResult[0]);
@@ -32,7 +32,7 @@ class DeliveryTest extends \PHPUnit_Framework_TestCase
     {
         $getStatusResult = $this->delivery->getStatus('135833975800056758');
         $this->assertNotFalse($getStatusResult);
-        
+
         if (count($getStatusResult) > 0) {
             $this->assertArrayHasKey('code', $getStatusResult[0]);
             $this->assertArrayHasKey('order_id', $getStatusResult[0]);
@@ -90,7 +90,7 @@ class DeliveryTest extends \PHPUnit_Framework_TestCase
         ];
         $getVariantsResult = $this->delivery->getVariants($parameters);
         $this->assertNotFalse($getVariantsResult);
-        
+
         if (count($getVariantsResult) > 0) {
             $this->assertArrayHasKey('price', $getVariantsResult[0]);
             $this->assertArrayHasKey('tarifs_type', $getVariantsResult[0]);
@@ -136,7 +136,7 @@ class DeliveryTest extends \PHPUnit_Framework_TestCase
             $this->assertArrayHasKey('is_basic', $getTariffsResult[0]);
         }
     }
-    
+
     protected function setUp()
     {
         $this->delivery = Api::factory(Api::API_KEY_TEST, Api::ENV_TEST)->get('delivery');

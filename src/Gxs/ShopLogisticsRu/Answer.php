@@ -53,7 +53,7 @@ class Answer implements \Iterator, \ArrayAccess
 
     /**
      * Get error code
-     * 
+     *
      * @return int
      */
     public function getErrorCode()
@@ -63,7 +63,7 @@ class Answer implements \Iterator, \ArrayAccess
 
     /**
      * Check has error in answer
-     * 
+     *
      * @return bool
      */
     public function hasError()
@@ -94,17 +94,6 @@ class Answer implements \Iterator, \ArrayAccess
     }
 
     /**
-     * Return the key of the current element
-     * @link http://php.net/manual/en/iterator.key.php
-     * @return mixed scalar on success, or null on failure.
-     * @since 5.0.0
-     */
-    public function key()
-    {
-        return key($this->answerData);
-    }
-
-    /**
      * Checks if current position is valid
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean The return value will be casted to boolean and then evaluated.
@@ -117,6 +106,17 @@ class Answer implements \Iterator, \ArrayAccess
     }
 
     /**
+     * Return the key of the current element
+     * @link http://php.net/manual/en/iterator.key.php
+     * @return mixed scalar on success, or null on failure.
+     * @since 5.0.0
+     */
+    public function key()
+    {
+        return key($this->answerData);
+    }
+
+    /**
      * Rewind the Iterator to the first element
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void Any returned value is ignored.
@@ -125,6 +125,22 @@ class Answer implements \Iterator, \ArrayAccess
     public function rewind()
     {
         reset($this->answerData);
+    }
+
+    /**
+     * Offset to retrieve
+     * @link http://php.net/manual/en/arrayaccess.offsetget.php
+     *
+     * @param mixed $offset <p>
+     * The offset to retrieve.
+     * </p>
+     *
+     * @return mixed Can return all value types.
+     * @since 5.0.0
+     */
+    public function offsetGet($offset)
+    {
+        return $this->offsetExists($offset) ? $this->answerData[$offset] : null;
     }
 
     /**
@@ -144,22 +160,6 @@ class Answer implements \Iterator, \ArrayAccess
     public function offsetExists($offset)
     {
         return isset($this->answerData[$offset]);
-    }
-
-    /**
-     * Offset to retrieve
-     * @link http://php.net/manual/en/arrayaccess.offsetget.php
-     *
-     * @param mixed $offset <p>
-     * The offset to retrieve.
-     * </p>
-     *
-     * @return mixed Can return all value types.
-     * @since 5.0.0
-     */
-    public function offsetGet($offset)
-    {
-        return $this->offsetExists($offset) ? $this->answerData[$offset] : null;
     }
 
     /**

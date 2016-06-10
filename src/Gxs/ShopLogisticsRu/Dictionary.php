@@ -12,6 +12,16 @@ use Heartsentwined\ArgValidator\ArgValidator;
 class Dictionary extends ApiClass
 {
     /**
+     * Get dictionary of cities
+     *
+     * @return array|bool Return dictionary or false in case of an error
+     */
+    public function getCities()
+    {
+        return $this->get('city', 'cities', 'city');
+    }
+
+    /**
      * Get dictionary by type
      *
      * @param string $type Dictionary type
@@ -29,16 +39,6 @@ class Dictionary extends ApiClass
         }
 
         return $this->returnAsArrayList($answerRootKey, $answerItemKey);
-    }
-
-    /**
-     * Get dictionary of cities
-     *
-     * @return array|bool Return dictionary or false in case of an error
-     */
-    public function getCities()
-    {
-        return $this->get('city', 'cities', 'city');
     }
 
     /**
