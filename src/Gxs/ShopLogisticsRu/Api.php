@@ -170,7 +170,7 @@ class Api
      *
      * @return Api
      */
-    public static function factory($apiKey, $environment = self::ENV_PROD)
+    public static function instance($apiKey, $environment = self::ENV_PROD)
     {
         ArgValidator::assert($apiKey, ['string', 'notEmpty']);
         ArgValidator::assert($environment, ['string', 'notEmpty']);

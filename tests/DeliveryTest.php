@@ -139,7 +139,7 @@ class DeliveryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->delivery = Api::factory(Api::API_KEY_TEST, Api::ENV_TEST)->get('delivery');
+        $this->delivery = Api::instance(Api::API_KEY_TEST, Api::ENV_TEST)->get('delivery');
     }
 
     protected function tearDown()
