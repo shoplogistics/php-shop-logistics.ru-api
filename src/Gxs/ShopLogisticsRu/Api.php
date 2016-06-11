@@ -116,7 +116,7 @@ class Api
      *
      * @return array Array for convert to xml
      */
-    protected function prepareArrayForConvertToXml($method, array $args)
+    private function prepareArrayForConvertToXml($method, array $args)
     {
         $array = [
             'function' => $method,
@@ -134,7 +134,7 @@ class Api
      *
      * @return string XML fore request
      */
-    protected function prepareXmlForRequest($method, array $args)
+    private function prepareXmlForRequest($method, array $args)
     {
         $arrayToXml = Array2XML::createXML('request', $this->prepareArrayForConvertToXml($method, $args));
 
@@ -155,8 +155,7 @@ class Api
         $xmlToArray = XML2Array::createArray($xml);
 
         if (!is_array($xmlToArray) || !isset($xmlToArray['answer'])) {
-            //TODO: Change error message
-            throw new AnswerException('Empty data answer');
+            throw new AnswerException('Empty answer');
         }
 
         return new Answer((array)$xmlToArray['answer']);
@@ -175,12 +174,8 @@ class Api
         ArgValidator::assert($apiKey, ['string', 'notEmpty']);
         ArgValidator::assert($environment, ['string', 'notEmpty']);
 
-        if (null === self::$instance) {
+        if (null === self::$instance || self::$instance->apiKey !== $apiKey) {
             self::$instance = new self($apiKey, $environment);
-        } else {
-            if (self::$instance->apiKey !== $apiKey) {
-                self::$instance = new self($apiKey, $environment);
-            }
         }
 
         return self::$instance;
