@@ -67,7 +67,7 @@ class Delivery extends ApiClass
         'shop_logistics_cheque' => ['int', 'min' => 0, 'max' => 1, 'notSet'],
         'delivery_partner' => ['int', 'notSet'],
         'barcodes' => ['array', 'notSet'],
-        'products' => ['array', 'notEmpty']
+        'products' => ['array', 'notSet']
     ];
 
     /**
