@@ -50,27 +50,16 @@ class Api
     protected $apiUrl = null;
 
     /**
-     * Map of api classes
-     *
-     * @var array
-     */
-    private $apiClasses = [
-        'delivery' => '\Gxs\ShopLogisticsRu\Delivery',
-        'dictionary' => '\Gxs\ShopLogisticsRu\Dictionary',
-        'mail_delivery' => '\Gxs\ShopLogisticsRu\MailDelivery',
-        'partners' => '\Gxs\ShopLogisticsRu\Partners',
-        'pickup' => '\Gxs\ShopLogisticsRu\Pickup',
-        'products' => '\Gxs\ShopLogisticsRu\Products'
-    ];
-
-    /**
      * Api constructor.
      *
      * @param string $apiKey API Key
      * @param string $environment API environment
      */
-    private function __construct($apiKey, $environment)
+    public function __construct($apiKey, $environment)
     {
+        ArgValidator::assert($apiKey, ['string', 'notEmpty']);
+        ArgValidator::assert($environment, ['string', 'notEmpty']);
+
         $this->curl = new Curl();
         $this->curl->setOpt(CURLOPT_RETURNTRANSFER, true);
         $this->curl->setUserAgent('Mozilla/5.0 (X11; Linux x86_64; rv:46.0) Gecko/20100101 Firefox/46.0');
@@ -162,26 +151,6 @@ class Api
     }
 
     /**
-     * Get instance of Api class
-     *
-     * @param string $apiKey API Key
-     * @param string $environment API Environment
-     *
-     * @return Api
-     */
-    public static function instance($apiKey, $environment = self::ENV_PROD)
-    {
-        ArgValidator::assert($apiKey, ['string', 'notEmpty']);
-        ArgValidator::assert($environment, ['string', 'notEmpty']);
-
-        if (null === self::$instance || self::$instance->apiKey !== $apiKey) {
-            self::$instance = new self($apiKey, $environment);
-        }
-
-        return self::$instance;
-    }
-
-    /**
      * Call method and get answer
      *
      * @param string $method Method name
@@ -199,23 +168,5 @@ class Api
         ]);
 
         return $this->parseAnswer($result);
-    }
-
-    /**
-     * Return new instance of api class
-     *
-     * @param string $apiClass Api class
-     *
-     * @return ApiClass|null
-     */
-    public function get($apiClass)
-    {
-        ArgValidator::assert($apiClass, ['string', 'notEmpty']);
-
-        if (!isset($this->apiClasses[$apiClass])) {
-            return null;
-        }
-
-        return new $this->apiClasses[$apiClass]($this);
     }
 }
