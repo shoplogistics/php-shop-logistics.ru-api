@@ -11,9 +11,9 @@
   ],
   "require": {
     "php": ">=5.4",
-    "php-curl-class/php-curl-class": "dev-master",
-    "openlss/lib-array2xml": "dev-master",
-    "heartsentwined/arg-validator": "dev-master"
+    "php-curl-class/php-curl-class": "4.*",
+    "openlss/lib-array2xml": "*",
+    "heartsentwined/arg-validator": "2.1"
   },
   "require-dev": {
     "phpunit/phpunit": "*"
